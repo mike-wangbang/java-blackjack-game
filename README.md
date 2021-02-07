@@ -8,3 +8,11 @@ anyone is able to play this version of the game, and there will not be any real 
 me because I have always been fascinated by the logic and probability found in casino games, so I wanted to 
 design an implementation of one game in Java. I already know how to play *Blackjack*, so I think I will have fun
 working on this project.
+
+## User Stories:
+
+ - As a user, I want to be able to create a game and input a quantity of money to be played.
+ - As a user, I want to be able to set a bet at the beginning of each round.
+ - As a user, I want to be able to receive cards as a starting hand; playing against the dealer.
+ - As a user, I want to be able to perform various actions in Blackjack, such as hit and stand (might add more actions later on)
+ - As a user, I want to be able to win or lose money depending on the value of my current hand.

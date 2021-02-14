@@ -11,6 +11,7 @@ public class PlayerTest {
     private static final int STARTING_CHIPS = 100;
     private static final Card CARD1 = new Card("9","club");
     private static final Card CARD2 = new Card("Q","diamond");
+    private static final Card ACE = new Card("A","spade");
 
     @BeforeEach
     public void runBefore() {
@@ -47,6 +48,21 @@ public class PlayerTest {
         testPlayer.addCardToHand(CARD1);
         assertEquals(2,testPlayer.getHand().size());
         assertEquals(19,testPlayer.getHandValue());
+    }
+
+    @Test
+    public void testGetHandValueWithAce() {
+        testPlayer.addCardToHand(CARD2);
+        testPlayer.addCardToHand(ACE);
+        assertEquals(21,testPlayer.getHandValue());
+    }
+
+    @Test
+    public void testGetHandValueWithTwoAces() {
+        testPlayer.addCardToHand(ACE);
+        testPlayer.addCardToHand(CARD1);
+        testPlayer.addCardToHand(ACE);
+        assertEquals(21,testPlayer.getHandValue());
     }
 
     @Test

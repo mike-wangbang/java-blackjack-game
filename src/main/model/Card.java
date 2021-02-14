@@ -55,6 +55,6 @@ public class Card {
                 break;
         }
 
-        return suitSymbol + rank;
+        return rank + suitSymbol;
     }
 }

@@ -48,10 +48,10 @@ public class CardTest {
 
         Card testCard4 = new Card("4","club");
 
-        assertEquals("\u26619",testCard1.cardToString());
-        assertEquals("\u2662Q",testCard2.cardToString());
-        assertEquals("\u2660A",testCard3.cardToString());
-        assertEquals("\u26634",testCard4.cardToString());
+        assertEquals("9\u2661",testCard1.cardToString());
+        assertEquals("Q\u2662",testCard2.cardToString());
+        assertEquals("A\u2660",testCard3.cardToString());
+        assertEquals("4\u2663",testCard4.cardToString());
 
     }
 }

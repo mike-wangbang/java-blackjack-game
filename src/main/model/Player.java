@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 
-public class Player {
+public class Player extends CardMechanics {
 
     private int chips;
     private ArrayList<Card> hand;
@@ -12,7 +12,7 @@ public class Player {
     public Player(int c) {
 
         this.chips = c;
-        this.hand = new ArrayList<Card>();
+        this.hand = new ArrayList<>();
 
     }
 
@@ -24,14 +24,14 @@ public class Player {
     // REQUIRES: c > 0
     // MODIFIES: this
     // EFFECTS: Adds the given quantity c chips to the player's count
-    public void addChips(int c) {
-        chips += c;
+    public void addChips(double c) {
+        chips += (int) c;
     }
 
     // REQUIRES: c <= chips
     // MODIFIES: this
     // EFFECTS: Subtracts the given quantity c chips from the player's count
-    public void subtractChips(int c) {
+    public void subtractChips(double c) {
         chips -= c;
     }
 
@@ -42,18 +42,14 @@ public class Player {
 
     // REQUIRES: card is valid and pulled from the deck
     // MODIFIES: this
-    // EFFECTS: Adds a card to the hand, then computes the new value of the hand.
+    // EFFECTS: Adds a card to the hand
     public void addCardToHand(Card card) {
-        hand.add(card);
+        hand = addCard(hand, card);
     }
 
     // EFFECTS: returns the value of player's hand
     public int getHandValue() {
-        int count = 0;
-        for (Card c:hand) {
-            count += c.getValue();
-        }
-        return count;
+        return getCardsValue(hand);
     }
 
     // MODIFIES: this

@@ -1,5 +1,7 @@
 package model;
 
+// Tests for the Player class
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

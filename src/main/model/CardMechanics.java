@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+// This class handles some complex algorithms with card handling
+
 public class CardMechanics {
 
     public static final List<String> SUITS = Arrays.asList("spade", "heart", "club", "diamond");

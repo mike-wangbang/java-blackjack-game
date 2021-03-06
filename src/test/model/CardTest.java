@@ -1,5 +1,7 @@
 package model;
 
+// Tests for the Card class
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

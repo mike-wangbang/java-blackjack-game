@@ -1,6 +1,6 @@
 package model;
 
-import model.CardMechanics;
+// Test class for the CardMechanics class
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

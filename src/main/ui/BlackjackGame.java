@@ -1,12 +1,13 @@
 package ui;
 
-
 import model.Card;
 import model.CardMechanics;
 import model.Player;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+// This class runs the game and handles user input
 
 public class BlackjackGame extends CardMechanics {
 
@@ -68,7 +69,7 @@ public class BlackjackGame extends CardMechanics {
         deck.clear();
         while (player.getChips() != 0) {
             checkShuffle();
-            int bet = bet();
+            player.setBet(bet());
             dealStartingCards();
             boolean isBlackjack = false;
             boolean isBust = false;
@@ -78,7 +79,7 @@ public class BlackjackGame extends CardMechanics {
             } else {
                 isBust = doPlayerAction();
             }
-            doEnding(isBust, isBlackjack, bet);
+            doEnding(isBust, isBlackjack);
         }
         System.out.println("\nOut of chips! Game over");
         startScreen();
@@ -146,31 +147,38 @@ public class BlackjackGame extends CardMechanics {
     }
 
     // MODIFIES: this
-    // EFFECTS: process player's input to hit or stand on a round
+    // EFFECTS: process player's input to hit, stand, or double down on a round
     public boolean processAction() {
-        System.out.println("\nh = HIT, s = STAND");
+        System.out.println("\nh = HIT, s = STAND, dd = DOUBLE DOWN");
         String action = input.next().toLowerCase();
         if (action.equals("h")) {
             player.addCardToHand(deck.get(0));
             deck.remove(0);
+        } else if (action.equals("dd") && player.getChips() >= player.getBet()) {
+            int doubledBet = player.getBet() * 2;
+            player.subtractChips(player.getBet());
+            player.setBet(doubledBet);
+            player.addCardToHand(deck.get(0));
+            deck.remove(0);
+            return false;
         } else if (action.equals("s")) {
             return false;
         } else {
-            System.out.println("Invalid action!!!");
+            System.out.println("Action was invalid or not enough chips to double bet");
         }
         return true;
     }
 
     // EFFECTS: computes the game's result after player has finished their actions
-    public void doEnding(boolean isBust, boolean isBlackjack, int bet) {
+    public void doEnding(boolean isBust, boolean isBlackjack) {
         if (isBust) {
             System.out.println("Bust!");
         } else if (isBlackjack) {
             System.out.println("Blackjack!!!");
-            compareHands(player.getHandValue(), getCardsValue(dealerHand), bet, 1.5);
+            compareHands(player.getHandValue(), getCardsValue(dealerHand), 1.5);
         } else {
             drawDealerHand();
-            compareHands(player.getHandValue(), getCardsValue(dealerHand), bet,2);
+            compareHands(player.getHandValue(), getCardsValue(dealerHand),2);
         }
         displayGame(dealerHand);
     }
@@ -187,13 +195,13 @@ public class BlackjackGame extends CardMechanics {
     // REQUIRES: player and dealer's hands are complete & valid
     // MODIFIES: this
     // EFFECTS: computes a win, loss, or draw based on the player and dealer's hands
-    public void compareHands(int plHand, int deHand, int bet, double mult) {
+    public void compareHands(int plHand, int deHand, double mult) {
         if (deHand > 21 || plHand > deHand) {
             System.out.println("You win!");
-            player.addChips(bet * mult);
+            player.addChips(player.getBet() * mult);
         } else if (plHand == deHand) {
             System.out.println("Push");
-            player.addChips(bet);
+            player.addChips(player.getBet());
         } else {
             System.out.println("Dealer wins!");
         }

@@ -2,11 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
+// This class represents a player's card hand and money
 
 public class Player extends CardMechanics {
 
     private int chips;
     private ArrayList<Card> hand;
+    private int bet;
 
     // EFFECTS: Creates the player with no chips and an empty hand of cards
     public Player(int c) {
@@ -56,5 +58,13 @@ public class Player extends CardMechanics {
     // EFFECTS: resets hand to an empty ArrayList
     public void resetHand() {
         hand.clear();
+    }
+
+    public int getBet() {
+        return bet;
+    }
+
+    public void setBet(int b) {
+        bet = b;
     }
 }

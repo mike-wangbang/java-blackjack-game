@@ -14,7 +14,7 @@ working on this project.
  - As a user, I want to be able to create a game and input a quantity of money to be played.
  - As a user, I want to be able to set a bet at the beginning of each round.
  - As a user, I want to be able to receive cards as a starting hand; playing against the dealer.
- - As a user, I want to be able to perform various actions in Blackjack, such as hit, stand, double, and split
+ - As a user, I want to be able to perform various actions in Blackjack, such as hit, stand, double down (split might be added later)
  - As a user, I want to be able to win or lose money depending on the value of my current hand.
  - As a user, I want to be able to save a game that is in progress, including chips
  - As a user, I want to be able to load an existing game and resume it

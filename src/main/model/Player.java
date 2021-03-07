@@ -60,10 +60,13 @@ public class Player extends CardMechanics {
         hand.clear();
     }
 
+    // EFFECTS: gets the current value of the bet
     public int getBet() {
         return bet;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the bet and subtracts it from the chip total
     public void setBet(int b) {
         bet = b;
     }

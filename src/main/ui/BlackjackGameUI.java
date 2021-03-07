@@ -2,21 +2,30 @@ package ui;
 
 import model.BlackjackGame;
 import model.Card;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 // this class handles the basic user interface and input of the game
+// uses code from the JsonSerializationDemo WorkRoomApp class
 
 public class BlackjackGameUI {
 
+    private static final String SAVE_LOCATION = "./data/blackjack.json";
     private BlackjackGame game;
-    private Scanner input;
+    private final Scanner input;
+    private final JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: initializes the game and scanner input, then starts the UI
     public BlackjackGameUI() {
         game = new BlackjackGame();
         input = new Scanner(System.in);
+        jsonWriter = new JsonWriter(SAVE_LOCATION);
         startScreen();
     }
 
@@ -25,33 +34,49 @@ public class BlackjackGameUI {
     public void startScreen() {
 
         boolean keepGoing = true;
-        System.out.println("\n\nWelcome to Blackjack!");
+        System.out.println("\nWelcome to Blackjack!");
 
         while (keepGoing) {
             int chipCount = game.getPlayer().getChips();
-            System.out.println("\nYou have " + chipCount + " chips");
-            System.out.println("Type d to deposit, w to withdraw, anything to play");
+            System.out.println("You have " + chipCount + " chips");
+            System.out.println("\nSelect from:");
+            System.out.println("\td -> deposit chips");
+            System.out.println("\tw -> withdraw chips");
+            System.out.println("\tplay -> start a game");
+            System.out.println("\tsave -> save the current game");
+            System.out.println("\tload -> load a saved game state");
+            System.out.println("\tq -> quit");
+            keepGoing = processCommand(chipCount);
 
-            String command = input.next().toLowerCase();
-            if (command.equals("d")) {
-                depositChips();
-            } else if (command.equals("w")) {
-                withdrawChips("How much money to withdraw? ");
-            } else {
-                if (chipCount == 0) {
-                    System.out.println("You can't start a game with 0 chips!");
-                } else {
-                    keepGoing = false;
-                }
-            }
         }
-        runGame();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: processes the player's command
+    public boolean processCommand(int chipCount) {
+        String command = input.next().toLowerCase();
+
+        if (command.equals("d")) {
+            depositChips();
+        } else if (command.equals("w")) {
+            withdrawChips("How many chips to withdraw? ");
+        } else if (command.equals("play") && chipCount != 0) {
+            runGame();
+            return false;
+        } else if (command.equals("q")) {
+            System.out.println("Hope you enjoyed playing!");
+            return false;
+        } else if (command.equals("save")) {
+            saveGame();
+        } else {
+            System.out.println("Your input is invalid or you don't have enough chips to start a game");
+        }
+        return true;
     }
 
     // MODIFIES: this
     // EFFECTS: runs the game and manages user input
     public void runGame() {
-        game.getDeck().clear();
         while (game.getPlayer().getChips() != 0) {
             game.startNewRound();
             game.getPlayer().setBet(bet());
@@ -64,10 +89,30 @@ public class BlackjackGameUI {
                 isBust = doPlayerAction();
             }
             String result = game.doEnding(isBust, isBlackjack);
-            displayGame(game.getDealerHand(),result);
+            displayGame(game.getDealerHand(), result);
+            if (!keepPlaying()) {
+                break;
+            }
         }
-        System.out.println("\nOut of chips! Game over");
+        if (game.getPlayer().getChips() == 0) {
+            System.out.println("\nOut of chips! Game over");
+        }
         startScreen();
+    }
+
+    public boolean keepPlaying() {
+        while (true) {
+            System.out.println("Keep playing? y -> YES, n -> RETURN TO MENU");
+            String command = input.next().toLowerCase();
+
+            if (command.equals("y")) {
+                return true;
+            } else if (command.equals("n")) {
+                return false;
+            } else {
+                System.out.println("Invalid action");
+            }
+        }
     }
 
     // EFFECTS: displays a round, processes player's input to hit or stand
@@ -94,7 +139,7 @@ public class BlackjackGameUI {
         int amount = 0;
 
         while (keepGoing) {
-            System.out.println("\n\nYou have " + game.getPlayer().getChips() + " chips");
+            System.out.println("\nYou have " + game.getPlayer().getChips() + " chips");
             amount = withdrawChips("Select quantity to bet: ");
             if (amount > 0) {
                 keepGoing = false;
@@ -137,7 +182,7 @@ public class BlackjackGameUI {
     public void displayGameWithHiddenHand(ArrayList<Card> d) {
         ArrayList<Card> hiddenHand = new ArrayList<>();
         hiddenHand.add(d.get(1));
-        displayGame(hiddenHand,"h = HIT, s = STAND, dd = DOUBLE DOWN");
+        displayGame(hiddenHand, "h = HIT, s = STAND, dd = DOUBLE DOWN");
     }
 
     // EFFECTS: displays the current game state
@@ -145,5 +190,18 @@ public class BlackjackGameUI {
         System.out.println(status);
         System.out.println("Dealer:" + game.cardsToStrings(d));
         System.out.println("You:" + game.cardsToStrings(game.getPlayer().getHand()));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: saves current game to file
+    public void saveGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(game);
+            jsonWriter.close();
+            System.out.println("Saved the game");
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save game to file: " + SAVE_LOCATION);
+        }
     }
 }

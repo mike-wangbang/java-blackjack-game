@@ -1,14 +1,18 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // This class runs the Blackjack game
 
-public class BlackjackGame extends CardMechanics {
+public class BlackjackGame extends CardMechanics implements Writable {
 
     private ArrayList<Card> deck;
-    private ArrayList<Card> dealerHand;
-    private Player player;
+    private final ArrayList<Card> dealerHand;
+    private final Player player;
 
     // EFFECTS: initializes the game with the player, deck, and dealer's hand
     public BlackjackGame() {
@@ -128,5 +132,40 @@ public class BlackjackGame extends CardMechanics {
     // EFFECTS: returns the dealer's current hand
     public ArrayList<Card> getDealerHand() {
         return dealerHand;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("player", playerToJson());
+        json.put("dealer", cardsToJson(dealerHand));
+        json.put("deck", cardsToJson(deck));
+        return json;
+    }
+
+    // EFFECTS: returns the player as a JSON object
+    private JSONObject playerToJson() {
+        JSONObject json = new JSONObject();
+        json.put("chips",player.getChips());
+        json.put("hand",cardsToJson(player.getHand()));
+        json.put("bet",player.getBet());
+        return json;
+    }
+
+    // EFFECTS: returns a list of cards as a JSONArray
+    private JSONArray cardsToJson(ArrayList<Card> cards) {
+        JSONArray json = new JSONArray();
+        for (Card c:cards) {
+            json.put(cardToJson(c));
+        }
+        return json;
+    }
+
+    // EFFECTS: returns a card as a JSONObject
+    private JSONObject cardToJson(Card card) {
+        JSONObject json = new JSONObject();
+        json.put("rank",card.getRank());
+        json.put("suit",card.getSuit());
+        return json;
     }
 }

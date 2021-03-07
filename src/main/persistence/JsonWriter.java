@@ -8,6 +8,7 @@ import java.io.*;
 // This class writes a BlackjackGame to JSON and saves it to a file
 // uses code from JsonSerializationDemo JsonWriter class
 public class JsonWriter {
+    private static final int TAB = 4;
     private PrintWriter writer;
     private String destination;
 
@@ -26,7 +27,7 @@ public class JsonWriter {
     // EFFECTS: writes BlackjackGame into JSON to file
     public void write(BlackjackGame game) {
         JSONObject json = game.toJson();
-        saveToFile(json.toString());
+        saveToFile(json.toString(TAB));
     }
 
     // MODIFIES: this

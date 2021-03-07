@@ -116,6 +116,7 @@ public class BlackjackGame extends CardMechanics implements Writable {
         } else {
             result = "Dealer wins!";
         }
+        player.setBet(0);
         return result;
     }
 

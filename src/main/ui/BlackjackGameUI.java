@@ -19,13 +19,14 @@ public class BlackjackGameUI {
     private BlackjackGame game;
     private final Scanner input;
     private final JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private final JsonReader jsonReader;
 
     // EFFECTS: initializes the game and scanner input, then starts the UI
     public BlackjackGameUI() {
         game = new BlackjackGame();
         input = new Scanner(System.in);
         jsonWriter = new JsonWriter(SAVE_LOCATION);
+        jsonReader = new JsonReader(SAVE_LOCATION);
         startScreen();
     }
 
@@ -68,6 +69,8 @@ public class BlackjackGameUI {
             return false;
         } else if (command.equals("save")) {
             saveGame();
+        } else if (command.equals("load")) {
+            loadGame();
         } else {
             System.out.println("Your input is invalid or you don't have enough chips to start a game");
         }
@@ -199,9 +202,20 @@ public class BlackjackGameUI {
             jsonWriter.open();
             jsonWriter.write(game);
             jsonWriter.close();
-            System.out.println("Saved the game");
+            System.out.println("Saved the game to " + SAVE_LOCATION);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to save game to file: " + SAVE_LOCATION);
+            System.out.println("Unable to save game to " + SAVE_LOCATION);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads game from file
+    public void loadGame() {
+        try {
+            game = jsonReader.read();
+            System.out.println("Loaded game from " + SAVE_LOCATION);
+        } catch (IOException e) {
+            System.out.println("Unable to load game from " + SAVE_LOCATION);
         }
     }
 }

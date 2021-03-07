@@ -7,6 +7,7 @@ import persistence.Writable;
 import java.util.ArrayList;
 
 // This class runs the Blackjack game
+// uses code from JsonSerializationDemo WorkRoom class
 
 public class BlackjackGame extends CardMechanics implements Writable {
 
@@ -145,7 +146,7 @@ public class BlackjackGame extends CardMechanics implements Writable {
     }
 
     // EFFECTS: returns the player as a JSON object
-    private JSONObject playerToJson() {
+    public JSONObject playerToJson() {
         JSONObject json = new JSONObject();
         json.put("chips",player.getChips());
         json.put("hand",cardsToJson(player.getHand()));
@@ -154,7 +155,7 @@ public class BlackjackGame extends CardMechanics implements Writable {
     }
 
     // EFFECTS: returns a list of cards as a JSONArray
-    private JSONArray cardsToJson(ArrayList<Card> cards) {
+    public JSONArray cardsToJson(ArrayList<Card> cards) {
         JSONArray json = new JSONArray();
         for (Card c:cards) {
             json.put(cardToJson(c));
@@ -163,7 +164,7 @@ public class BlackjackGame extends CardMechanics implements Writable {
     }
 
     // EFFECTS: returns a card as a JSONObject
-    private JSONObject cardToJson(Card card) {
+    public JSONObject cardToJson(Card card) {
         JSONObject json = new JSONObject();
         json.put("rank",card.getRank());
         json.put("suit",card.getSuit());

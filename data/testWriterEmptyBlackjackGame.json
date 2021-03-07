@@ -1,0 +1,9 @@
+{
+    "deck": [],
+    "dealer": [],
+    "player": {
+        "bet": 0,
+        "chips": 100,
+        "hand": []
+    }
+}

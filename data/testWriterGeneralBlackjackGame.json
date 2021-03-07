@@ -1,0 +1,18 @@
+{
+    "deck": [{
+        "rank": "7",
+        "suit": "club"
+    }],
+    "dealer": [{
+        "rank": "5",
+        "suit": "spade"
+    }],
+    "player": {
+        "bet": 20,
+        "chips": 110,
+        "hand": [{
+            "rank": "K",
+            "suit": "heart"
+        }]
+    }
+}

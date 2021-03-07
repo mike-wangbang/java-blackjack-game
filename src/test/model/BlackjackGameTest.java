@@ -1,6 +1,6 @@
 package model;
 
-
+import org.json.JSONObject;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Test class for the BlackjackGame class
-public class BlackjackGameTest {
+public class BlackjackGameTest extends BlackjackGame {
 
     private BlackjackGame game;
 
@@ -249,5 +249,14 @@ public class BlackjackGameTest {
         game.getDealerHand().add(new Card ("10","heart"));
         game.getDealerHand().add(new Card ("8","heart"));
         assertEquals("You win!",game.doEnding(false,false));
+    }
+
+    @Test
+    public void testToJson() {
+        JSONObject jsonTest = new JSONObject();
+        jsonTest.put("player", playerToJson());
+        jsonTest.put("dealer", cardsToJson(game.getDealerHand()));
+        jsonTest.put("deck", cardsToJson(game.getDeck()));
+        assertEquals(jsonTest.toString(),game.toJson().toString());
     }
 }

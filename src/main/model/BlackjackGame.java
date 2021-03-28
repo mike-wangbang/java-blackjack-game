@@ -11,15 +11,22 @@ import java.util.ArrayList;
 
 public class BlackjackGame extends CardMechanics implements Writable {
 
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 600;
+
     private ArrayList<Card> deck;
     private final ArrayList<Card> dealerHand;
     private final Player player;
+    private boolean gameRunning;
+
 
     // EFFECTS: initializes the game with the player, deck, and dealer's hand
     public BlackjackGame() {
         player = new Player(100);
         deck = new ArrayList<>();
         dealerHand = new ArrayList<>();
+        gameRunning = false;
+
     }
 
     // MODIFIES: this
@@ -66,6 +73,7 @@ public class BlackjackGame extends CardMechanics implements Writable {
         if (action.equals("h")) {
             player.addCardToHand(deck.get(0));
             deck.remove(0);
+            return true;
         } else if (action.equals("dd") && player.getChips() >= player.getBet()) {
             int doubledBet = player.getBet() * 2;
             player.subtractChips(player.getBet());
@@ -76,13 +84,13 @@ public class BlackjackGame extends CardMechanics implements Writable {
         } else {
             return !action.equals("s");
         }
-        return true;
     }
 
     // EFFECTS: computes the game's result after player has finished their actions
     public String doEnding(boolean isBust, boolean isBlackjack) {
         String result;
         if (isBust) {
+            player.setBet(0);
             result = "Bust!";
         } else if (isBlackjack) {
             String actualResult = compareHands(player.getHandValue(), getCardsValue(dealerHand), 1.5);
@@ -134,6 +142,16 @@ public class BlackjackGame extends CardMechanics implements Writable {
     // EFFECTS: returns the dealer's current hand
     public ArrayList<Card> getDealerHand() {
         return dealerHand;
+    }
+
+    // EFFECTS: returns true if the game is in progress
+    public boolean isGameRunning() {
+        return gameRunning;
+    }
+
+    // EFFECTS: sets gameRunning
+    public void setGameRunning(boolean g) {
+        gameRunning = g;
     }
 
     @Override

@@ -8,7 +8,7 @@ public class Card {
     private String suit;
 
     // REQUIRES: - rank is one of: A, 2-10, J, Q, K
-    //           - suit is one of: spade, heart, club, diamond
+    //           - suit is one of: S, H, C, D
     // EFFECTS: Creates a new instance of Card
     public Card(String rank, String suit) {
         this.rank = rank;
@@ -37,20 +37,21 @@ public class Card {
     }
 
     // EFFECTS: returns the card as a String with a Unicode suit symbol
+    // (this method isn't used anymore in the GUI, it can be ignored)
     public String cardToString() {
         char suitSymbol = 0;
 
         switch (suit) {
-            case "spade":
+            case "S":
                 suitSymbol = (char) 9824;
                 break;
-            case "heart":
+            case "H":
                 suitSymbol = (char) 9825;
                 break;
-            case "club":
+            case "C":
                 suitSymbol = (char) 9827;
                 break;
-            case "diamond":
+            case "D":
                 suitSymbol = (char) 9826;
                 break;
         }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CardMechanics {
 
-    public static final List<String> SUITS = Arrays.asList("spade", "heart", "club", "diamond");
+    public static final List<String> SUITS = Arrays.asList("S", "H", "C", "D");
     public static final List<String> FACE_RANKS = Arrays.asList("J", "Q", "K", "A");
     private static final int NUM_DECKS = 2;
     private static final int NUM_SHUFFLES = 15;
@@ -47,6 +47,7 @@ public class CardMechanics {
 
     // MODIFIES: this
     // EFFECTS: returns a list of cards as a string with the cards' value
+    // (this method isn't used anymore in the GUI, it can be ignored)
     public String cardsToStrings(ArrayList<Card> cards) {
         String result = "";
 

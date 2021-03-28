@@ -259,4 +259,17 @@ public class BlackjackGameTest extends BlackjackGame {
         jsonTest.put("deck", cardsToJson(game.getDeck()));
         assertEquals(jsonTest.toString(),game.toJson().toString());
     }
+
+    @Test
+    public void testIsGameRunning() {
+        assertFalse(game.isGameRunning());
+    }
+
+    @Test
+    public void testSetGameRunning() {
+        game.setGameRunning(true);
+        assertTrue(game.isGameRunning());
+        game.setGameRunning(false);
+        assertFalse(game.isGameRunning());
+    }
 }

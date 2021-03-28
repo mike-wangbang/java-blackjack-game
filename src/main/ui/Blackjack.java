@@ -155,8 +155,8 @@ public class Blackjack implements ActionListener {
         dealerPanel.setBackground(DEFAULT_COLOR);
         playerPanel.setBackground(DEFAULT_COLOR);
         cardsAndActionsPanel.add(dealerPanel);
-        cardsAndActionsPanel.add(middlePanel);
         cardsAndActionsPanel.add(playerPanel);
+        cardsAndActionsPanel.add(middlePanel);
         gameScreen.add(cardsAndActionsPanel, BorderLayout.CENTER);
     }
 

@@ -7,12 +7,38 @@ public class Card {
     private String rank;
     private String suit;
 
-    // REQUIRES: - rank is one of: A, 2-10, J, Q, K
-    //           - suit is one of: S, H, C, D
     // EFFECTS: Creates a new instance of Card
-    public Card(String rank, String suit) {
-        this.rank = rank;
-        this.suit = suit;
+    //          throws an IllegalCardException if:
+    //           - rank is NOT one of: A, 2-10, J, Q, K
+    //           - suit is NOT one of: S, H, C, D
+    public Card(String rank, String suit) throws IllegalCardException {
+        boolean suitValid = false;
+        boolean rankValid = false;
+        for (String s : CardMechanics.SUITS) {
+            if (suit.equals(s)) {
+                suitValid = true;
+                break;
+            }
+        }
+        try {
+            int testNum = Integer.parseInt(rank);
+            if (testNum <= 10 && testNum >= 2) {
+                rankValid = true;
+            }
+        } catch (NumberFormatException e) {
+            for (String f : CardMechanics.FACE_RANKS) {
+                if (rank.equals(f)) {
+                    rankValid = true;
+                    break;
+                }
+            }
+        }
+        if (suitValid && rankValid) {
+            this.rank = rank;
+            this.suit = suit;
+        } else {
+            throw new IllegalCardException("Card cannot be created");
+        }
     }
 
     // EFFECTS: returns the card's rank as a String

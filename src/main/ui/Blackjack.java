@@ -68,7 +68,7 @@ public class Blackjack implements ActionListener {
     public void createStartScreen() {
         startScreen.setBackground(DEFAULT_COLOR);
         createTitle();
-        drawImage(startScreen, "./images/title.jpg",160,160);
+        drawImage(startScreen, "./images/image.jpg",160,160);
         chipCounter.setText("You have " + game.getPlayer().getChips() + " chips");
         startScreen.add(chipCounter);
         createStartButtons();
@@ -213,12 +213,12 @@ public class Blackjack implements ActionListener {
         } else if (action.equals("h") || action.equals("dd") || action.equals("s")) {
             boolean keepGoing = game.processAction(action);
             String result;
-            if (!keepGoing) {
+            if (game.getPlayer().getHandValue() > 21) {
+                result = game.doEnding(true,false);
+                updateGameScreen(createGameOverPanel(result),false);
+            } else if (!keepGoing) {
                 game.drawDealerHand();
                 result = game.doEnding(false, false);
-                updateGameScreen(createGameOverPanel(result),false);
-            } else if (game.getPlayer().getHandValue() > 21) {
-                result = game.doEnding(true,false);
                 updateGameScreen(createGameOverPanel(result),false);
             } else {
                 updateGameScreen(createActionPanel(),true);

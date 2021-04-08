@@ -22,3 +22,10 @@ working on this project.
  ## Phase 4: Task 2
  
  I chose to design a class to be robust. The BlackjackGame class was reworked to be robust with the drawDealerHand and doEnding methods. drawDealerHand will throw a DeckEmptyException to handle the deck emptying before the dealer has finished drawing cards.
+ 
+ ## Phase 4: Task 3
+ 
+ - Represent the range of ranks and suits of a card as enums
+ - Use a map of possible card combinations to generate a "deck", rather than have a very large ArrayList of cards
+ - Remove the extends relationship between Player and CardMechanics to reduce coupling
+ - Simplify the implementation of the Blackjack (UI) class by not requiring a Card import from model, and other optimizations to move more game logic to the BlackjackGame class 

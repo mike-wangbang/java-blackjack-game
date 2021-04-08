@@ -18,3 +18,7 @@ working on this project.
  - As a user, I want to be able to win or lose money depending on the value of my current hand.
  - As a user, I want to be able to save a game that is in progress, including chips
  - As a user, I want to be able to load an existing game and resume it
+ 
+ ## Phase 4: Task 2
+ 
+ I chose to design a class to be robust. The BlackjackGame class was reworked to be robust with the drawDealerHand and doEnding methods. drawDealerHand will throw a DeckEmptyException to handle the deck emptying before the dealer has finished drawing cards.

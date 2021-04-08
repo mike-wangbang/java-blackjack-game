@@ -11,9 +11,6 @@ import java.util.ArrayList;
 
 public class BlackjackGame extends CardMechanics implements Writable {
 
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 600;
-
     private ArrayList<Card> deck;
     private final ArrayList<Card> dealerHand;
     private final Player player;
@@ -46,7 +43,6 @@ public class BlackjackGame extends CardMechanics implements Writable {
         return false;
     }
 
-    // REQUIRES: deck is not empty
     // MODIFIES: this
     // EFFECTS: deals the starting cards to the player and dealer and removes those cards from deck
     public void dealStartingCards() {
@@ -87,8 +83,10 @@ public class BlackjackGame extends CardMechanics implements Writable {
     }
 
     // EFFECTS: computes the game's result after player has finished their actions
+    //          if DeckEmptyException is caught, a new deck is generated and this method is called again
+    //          to complete the ending
     public String doEnding(boolean isBust, boolean isBlackjack) {
-        String result;
+        String result = "";
         if (isBust) {
             player.setBet(0);
             result = "Bust!";
@@ -96,17 +94,25 @@ public class BlackjackGame extends CardMechanics implements Writable {
             String actualResult = compareHands(player.getHandValue(), getCardsValue(dealerHand), 1.5);
             result = "BLACKJACK!!!" + " " + actualResult;
         } else {
-            drawDealerHand();
-            result = compareHands(player.getHandValue(), getCardsValue(dealerHand), 2);
+            try {
+                drawDealerHand();
+                result = compareHands(player.getHandValue(), getCardsValue(dealerHand), 2);
+            } catch (DeckEmptyException e) {
+                deck = generateDeck();
+                doEnding(false, false);
+            }
         }
         return result;
     }
 
-    // REQUIRES: deck is not empty
     // MODIFIES: this
     // EFFECTS: draw the dealer's hand until their value is >= 17
-    public void drawDealerHand() {
+    //          throws DeckEmptyException if the deck empties before the dealer has finished drawing
+    public void drawDealerHand() throws DeckEmptyException {
         while (getCardsValue(dealerHand) < 17) {
+            if (deck.isEmpty()) {
+                throw new DeckEmptyException();
+            }
             dealerHand.add(deck.get(0));
             deck.remove(0);
         }
@@ -166,16 +172,16 @@ public class BlackjackGame extends CardMechanics implements Writable {
     // EFFECTS: returns the player as a JSON object
     public JSONObject playerToJson() {
         JSONObject json = new JSONObject();
-        json.put("chips",player.getChips());
-        json.put("hand",cardsToJson(player.getHand()));
-        json.put("bet",player.getBet());
+        json.put("chips", player.getChips());
+        json.put("hand", cardsToJson(player.getHand()));
+        json.put("bet", player.getBet());
         return json;
     }
 
     // EFFECTS: returns a list of cards as a JSONArray
     public JSONArray cardsToJson(ArrayList<Card> cards) {
         JSONArray json = new JSONArray();
-        for (Card c:cards) {
+        for (Card c : cards) {
             json.put(cardToJson(c));
         }
         return json;
@@ -184,8 +190,8 @@ public class BlackjackGame extends CardMechanics implements Writable {
     // EFFECTS: returns a card as a JSONObject
     public JSONObject cardToJson(Card card) {
         JSONObject json = new JSONObject();
-        json.put("rank",card.getRank());
-        json.put("suit",card.getSuit());
+        json.put("rank", card.getRank());
+        json.put("suit", card.getSuit());
         return json;
     }
 }

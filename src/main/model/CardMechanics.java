@@ -45,18 +45,18 @@ public class CardMechanics {
         return deck;
     }
 
-    // MODIFIES: this
-    // EFFECTS: returns a list of cards as a string with the cards' value
-    // (this method isn't used anymore in the GUI, it can be ignored)
-    public String cardsToStrings(ArrayList<Card> cards) {
-        String result = "";
-
-        for (Card c : cards) {
-            result = result + " " + c.cardToString();
-        }
-        result = result + " (" + getCardsValue(cards) + ")";
-        return result;
-    }
+//    // MODIFIES: this
+//    // EFFECTS: returns a list of cards as a string with the cards' value
+//    // (this method isn't used anymore in the GUI, it can be ignored)
+//    public String cardsToStrings(ArrayList<Card> cards) {
+//        String result = "";
+//
+//        for (Card c : cards) {
+//            result = result + " " + c.cardToString();
+//        }
+//        result = result + " (" + getCardsValue(cards) + ")";
+//        return result;
+//    }
 
     // MODIFIES: this
     // EFFECTS: adds a card to a hand and returns it

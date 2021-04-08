@@ -217,7 +217,6 @@ public class Blackjack implements ActionListener {
                 result = game.doEnding(true,false);
                 updateGameScreen(createGameOverPanel(result),false);
             } else if (!keepGoing) {
-                game.drawDealerHand();
                 result = game.doEnding(false, false);
                 updateGameScreen(createGameOverPanel(result),false);
             } else {

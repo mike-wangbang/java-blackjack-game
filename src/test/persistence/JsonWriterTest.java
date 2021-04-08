@@ -50,11 +50,11 @@ public class JsonWriterTest {
     public void testWriterGeneralBlackjackGame() {
         try {
             BlackjackGame game = new BlackjackGame();
-            game.getDeck().add(new Card("7","club"));
-            game.getDealerHand().add(new Card("5","spade"));
+            game.getDeck().add(new Card("7","C"));
+            game.getDealerHand().add(new Card("5","S"));
             game.getPlayer().setBet(20);
             game.getPlayer().addChips(10);
-            game.getPlayer().addCardToHand(new Card("K","heart"));
+            game.getPlayer().addCardToHand(new Card("K","H"));
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralBlackjackGame.json");
             writer.open();
             writer.write(game);
@@ -64,18 +64,18 @@ public class JsonWriterTest {
             game = reader.read();
             assertEquals(1,game.getDeck().size());
             assertEquals("5",game.getDealerHand().get(0).getRank());
-            assertEquals("spade",game.getDealerHand().get(0).getSuit());
+            assertEquals("S",game.getDealerHand().get(0).getSuit());
 
             assertEquals(1,game.getDealerHand().size());
             assertEquals("7",game.getDeck().get(0).getRank());
-            assertEquals("club",game.getDeck().get(0).getSuit());
+            assertEquals("C",game.getDeck().get(0).getSuit());
 
             assertEquals(20,game.getPlayer().getBet());
             assertEquals(110,game.getPlayer().getChips());
             assertEquals("K",game.getPlayer().getHand().get(0).getRank());
-            assertEquals("heart",game.getPlayer().getHand().get(0).getSuit());
+            assertEquals("H",game.getPlayer().getHand().get(0).getSuit());
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail("Exception should not have been thrown");
         }
     }

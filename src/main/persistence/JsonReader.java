@@ -80,8 +80,14 @@ public class JsonReader {
     // MODIFIES: game
     // EFFECTS: parses card from JSON object and returns it
     private Card addCard(JSONObject jsonObject) {
+        Card card = null;
         String rank = jsonObject.getString("rank");
         String suit = jsonObject.getString("suit");
-        return new Card(rank, suit);
+        try {
+            card = new Card(rank,suit);
+        } catch (Exception e) {
+            System.err.println("Unable to create card from " + rank + suit);
+        }
+        return card;
     }
 }
